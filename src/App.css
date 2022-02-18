@@ -1,45 +1,4 @@
-/* .App {
-} */
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.field-wrapper {
-  font-size: 15px;
-}
-.field-declaration-wrapper {
-  font-size: 15px;
-  display: inline-flex;
-}
-
-.input-field {
-  background-color: rgba(199, 199, 199, 0.657);
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  border-radius: 5px;
-}
-.input-field-name {
-  text-transform: uppercase;
-  margin: 5px 0px 5px 15px;
-}
-
-.form-rejestration {
-  border-radius: 15px;
-  background-color: #ffff;
-  /* height: 550px; */
-  width: 450px;
-  padding: 30px;
-}
-
-.form-header {
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@import "/src/variables.css";
 
 .App-body {
   background-image: url("/resource/Background.jpg");
@@ -48,6 +7,100 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.declaration-additional-info {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.declaration-rulebook {
+  font-weight: bold;
+  color: var(--default-background-color);
+}
+
+.field-wrapper {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--default-font-color);
+  padding: 5px;
+}
+.field-declaration-wrapper {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--default-font-color);
+  display: inline-flex;
+  margin: 10px 4px;
+}
+
+.field-declaration-text {
+  cursor: pointer;
+}
+
+.field-declaration-checkbox {
+  margin-right: 10px;
+}
+.field-declaration-checkbox > input {
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+.input-field {
+  background-color: rgba(199, 199, 199, 0.178);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: var(--form-input-border);
+}
+
+input::-webkit-input-placeholder {
+  color: black;
+  font-weight: 500;
+  opacity: 0.3;
+}
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-field-name {
+  text-transform: uppercase;
+  margin: 5px 20px;
+}
+.input-field-additional {
+  text-transform: lowercase;
+  color: rgb(0, 0, 0, 0.25);
+}
+
+.form-rejestration {
+  border-radius: 5px;
+  background-color: #ffff;
+  width: 70%;
+  max-width: 500px;
+  padding: 50px;
+}
+
+.form-header {
+  font-size: 25px;
+  font-weight: 500;
+  color: var(--default-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-password-checkbox-wrapper {
+  margin-top: 2px;
+  display: inline-block;
+}
+
+.form-password-checkbox-wrapper > input {
+  pointer-events: none;
 }
 
 .form-button-wrapper {
@@ -62,13 +115,22 @@
   justify-content: center;
 }
 
-.form-button-wrapper > .form-button-submit {
-  width: 100px;
-  height: 50px;
-  border-radius: 50px;
-  background-color: rgb(22, 144, 114);
+.login-button {
+  color: var(--default-background-color);
+  font-weight: bold;
+  margin-top: 30px;
+  border: 0px;
+  background-color: white;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.form-button-wrapper > .form-button-submit {
+  width: 150px;
+  height: 50px;
+  border-radius: 50px;
+  border: 0px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--default-background-color);
 }
