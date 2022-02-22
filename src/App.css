@@ -58,6 +58,13 @@
   border: var(--form-input-border);
 }
 
+.input-error-info {
+  font-weight: normal;
+  text-transform: none;
+  margin-left: 10px;
+  color: red;
+}
+
 input::-webkit-input-placeholder {
   color: black;
   font-weight: 500;
@@ -86,6 +93,7 @@ input::-webkit-inner-spin-button {
 }
 
 .form-header {
+  margin-bottom: 20px;
   font-size: 25px;
   font-weight: 500;
   color: var(--default-font-color);
