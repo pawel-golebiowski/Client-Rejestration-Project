@@ -1,6 +1,8 @@
 import "./App.css";
 import React from "react";
 import validator from "validator";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { type } from "@testing-library/user-event/dist/type";
 
 class App extends React.Component {
   constructor() {
@@ -11,6 +13,7 @@ class App extends React.Component {
       letterCheck: false,
       lengthCheck: false,
       ruleAcceptance: false,
+      isPasswordVisible: false,
       email: "",
       emailError: "",
       password: "",
@@ -32,6 +35,88 @@ class App extends React.Component {
     } else {
       this.setState({ emailError: "Wprowadź poprawny e-mail" });
     }
+  };
+
+  handlePasswordChange = (e) => {
+    if (
+      this.state.letterCheck &&
+      this.state.digitalCheck &&
+      this.state.lengthCheck
+    ) {
+      this.setState({ passwordError: "" });
+      this.setState({ password: e.target.value });
+    } else {
+      this.setState({ passwordError: "Wprowadź poprawne hasło" });
+    }
+  };
+
+  handlePayorNumberChange = (e) => {
+    if (e.target.value.length === 8) {
+      this.setState({ payorNumber: e.target.value });
+      this.setState({ payorNumberError: "" });
+    } else {
+      this.setState({ payorNumberError: "Wprowadź 8-cyfrowy numer płatnika" });
+    }
+  };
+  handlePeselNumberChange = (e) => {
+    if (e.target.value.length === 11) {
+      this.setState({ peselNumber: e.target.value });
+      this.setState({ peselNumberError: "" });
+    } else {
+      this.setState({ peselNumberError: "Wprowadź 11-cyfrowy numer PESEL" });
+    }
+  };
+
+  handlePhoneNumberChange = (e) => {
+    if (e.target.value.length === 9) {
+      this.setState({ phoneNumber: e.target.value });
+      this.setState({ phoneNumberError: "" });
+    } else if (e.target.value.length === 0) {
+      this.setState({ phoneNumber: "" });
+      this.setState({ phoneNumberError: "" });
+    } else {
+      this.setState({ phoneNumber: "" });
+      this.setState({ phoneNumberError: "Wprowadź poprawny numer telefonu" });
+    }
+  };
+
+  handleRuleAcceptance = (e) => {
+    this.setState({ ruleAcceptance: !this.state.ruleAcceptance });
+  };
+
+  handleSubmitForm = (e) => {
+    e.preventDefault();
+    if (
+      this.state.emailError === "" &&
+      this.state.passwordError === "" &&
+      this.state.payorNumberError === "" &&
+      this.state.peselNumberError === "" &&
+      this.state.phoneNumberError === ""
+    ) {
+      let dataToSend = {
+        email: this.state.email,
+        password: this.state.password,
+        payorNumber: this.state.payorNumber,
+        peselNumber: this.state.peselNumber,
+      };
+      if (this.state.phoneNumber !== "") {
+        dataToSend.phoneNumber = this.state.phoneNumber;
+      }
+      fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+      }).then(() => {
+        alert("Formularz wysłany!");
+        window.location.reload(false);
+      });
+    } else {
+      alert("formularz NIE wysłany!");
+    }
+  };
+
+  togglePasswordVisibility = (e) => {
+    this.setState({ isPasswordVisible: !this.state.isPasswordVisible });
   };
 
   validatePassword = (e) => {
@@ -57,60 +142,6 @@ class App extends React.Component {
     }
   };
 
-  handlePasswordChange = (e) => {
-    if (
-      this.state.letterCheck &&
-      this.state.digitalCheck &&
-      this.state.lengthCheck
-    ) {
-      this.setState({ passwordError: "" });
-      this.setState({ password: e.target.value });
-    } else {
-      this.setState({ passwordError: "Wprowadź poprawne hasło" });
-    }
-  };
-
-  handlePayorNumberChange = (e) => {
-    if (e.target.value.length == 8) {
-      this.setState({ payorNumber: e.target.value });
-      this.setState({ payorNumberError: "" });
-    } else {
-      this.setState({ payorNumberError: "Wprowadź 8-cyfrowy numer płatnika" });
-    }
-  };
-  handlePeselNumberChange = (e) => {
-    if (e.target.value.length == 11) {
-      this.setState({ peselNumber: e.target.value });
-      this.setState({ peselNumberError: "" });
-    } else {
-      this.setState({ peselNumberError: "Wprowadź 11-cyfrowy numer PESEL" });
-    }
-  };
-  handlePhoneNumberChange = (e) => {
-    if (e.target.value.length == 9) {
-      this.setState({ phoneNumber: e.target.value });
-      this.setState({ phoneNumberError: "" });
-    } else {
-      this.setState({ phoneNumberError: "Wprowadź poprawny numer telefonu" });
-    }
-  };
-
-  handleRuleAcceptance = (e) => {
-    this.setState({ ruleAcceptance: !this.state.ruleAcceptance });
-  };
-
-  handleSubmitForm = (e) => {
-    e.preventDefault();
-    var dataToSend = {
-      email: this.state.email,
-      password: this.state.password,
-      payorNumber: this.state.payorNumber,
-      peselNumber: this.state.peselNumber,
-      phoneNumber: this.state.phoneNumber,
-    };
-    console.log(dataToSend);
-  };
-
   render() {
     return (
       <div className="App">
@@ -127,8 +158,14 @@ class App extends React.Component {
               </div>
               <input
                 onBlur={this.handleEmailChange}
-                className="input-field"
+                className={
+                  this.state.emailError === ""
+                    ? "input-field"
+                    : "input-field-wrong"
+                }
+                name="email-input"
                 placeholder="Wpisz adres e-mail"
+                type={"email"}
                 required
               ></input>
             </div>
@@ -140,14 +177,34 @@ class App extends React.Component {
                   {this.state.passwordError}
                 </span>
               </div>
-              <input
-                onBlur={this.handlePasswordChange}
-                onChange={this.validatePassword}
-                className="input-field"
-                type={"password"}
-                placeholder="Wpisz hasło"
-                required
-              ></input>
+              <div
+                className={
+                  this.state.passwordError === ""
+                    ? "field-password-wrapper"
+                    : "field-password-wrapper-wrong"
+                }
+              >
+                <input
+                  onBlur={this.handlePasswordChange}
+                  onChange={this.validatePassword}
+                  className="input-field-password"
+                  type={this.state.isPasswordVisible ? "text" : "password"}
+                  placeholder="Wpisz hasło"
+                  required
+                ></input>
+                <div
+                  tabIndex={0}
+                  onClick={this.togglePasswordVisibility}
+                  onKeyDown={this.togglePasswordVisibility}
+                  className="password-toggle-icon"
+                >
+                  {this.state.isPasswordVisible ? (
+                    <FaRegEye />
+                  ) : (
+                    <FaRegEyeSlash />
+                  )}
+                </div>
+              </div>
               <div>
                 <div className="form-password-checkbox-wrapper">
                   <input
@@ -155,7 +212,7 @@ class App extends React.Component {
                     className="password-digit-check"
                     tabIndex={"-1"}
                     type={"checkbox"}
-                  ></input>{" "}
+                  ></input>
                   1 cyfra &emsp; &emsp;
                 </div>
                 <div className="form-password-checkbox-wrapper">
@@ -164,7 +221,7 @@ class App extends React.Component {
                     className="password-letter-check"
                     tabIndex={"-1"}
                     type={"checkbox"}
-                  ></input>{" "}
+                  ></input>
                   Wielka i mała litera &emsp;&emsp;
                 </div>
                 <div className="form-password-checkbox-wrapper">
@@ -173,7 +230,7 @@ class App extends React.Component {
                     className="password-length-check"
                     tabIndex={"-1"}
                     type={"checkbox"}
-                  ></input>{" "}
+                  ></input>
                   8 znaków
                 </div>
               </div>
@@ -189,7 +246,11 @@ class App extends React.Component {
               <input
                 onBlur={this.handlePayorNumberChange}
                 onWheel={(e) => e.target.blur()}
-                className="input-field"
+                className={
+                  this.state.payorNumberError === ""
+                    ? "input-field"
+                    : "input-field-wrong"
+                }
                 placeholder="Wpisz numer płatnika"
                 type={"number"}
                 required
@@ -207,8 +268,13 @@ class App extends React.Component {
                 onBlur={this.handlePeselNumberChange}
                 onWheel={(e) => e.target.blur()}
                 type={"number"}
-                className="input-field"
+                className={
+                  this.state.peselNumberError === ""
+                    ? "input-field"
+                    : "input-field-wrong"
+                }
                 placeholder="Wpisz PESEL"
+                required
               ></input>
             </div>
 
@@ -224,7 +290,11 @@ class App extends React.Component {
                 onBlur={this.handlePhoneNumberChange}
                 onWheel={(e) => e.target.blur()}
                 type={"number"}
-                className="input-field"
+                className={
+                  this.state.phoneNumberError === ""
+                    ? "input-field"
+                    : "input-field-wrong"
+                }
                 placeholder="Wpisz numer telefonu"
               ></input>
             </div>
@@ -261,7 +331,12 @@ class App extends React.Component {
               ></input>
             </div>
             <div className="login-button-wrapper">
-              <button className="login-button">Logowanie</button>
+              <button
+                className="login-button"
+                onClick={(e) => e.preventDefault()}
+              >
+                Logowanie
+              </button>
             </div>
           </form>
         </div>
