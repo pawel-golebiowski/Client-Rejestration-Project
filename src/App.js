@@ -1,8 +1,8 @@
 import "./App.css";
 import React from "react";
 import validator from "validator";
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import { type } from "@testing-library/user-event/dist/type";
+import { FaRegEyeSlash, FaRegEye, FaRegQuestionCircle } from "react-icons/fa";
+import { Modal } from "./Modal/Modal";
 
 class App extends React.Component {
   constructor() {
@@ -14,6 +14,7 @@ class App extends React.Component {
       lengthCheck: false,
       ruleAcceptance: false,
       isPasswordVisible: false,
+      showModal: false,
       email: "",
       emailError: "",
       password: "",
@@ -80,7 +81,7 @@ class App extends React.Component {
     }
   };
 
-  handleRuleAcceptance = (e) => {
+  handleRuleAcceptance = () => {
     this.setState({ ruleAcceptance: !this.state.ruleAcceptance });
   };
 
@@ -115,8 +116,15 @@ class App extends React.Component {
     }
   };
 
-  togglePasswordVisibility = (e) => {
+  onClickTogglePasswordVisibility = (e) => {
+    console.log(e);
     this.setState({ isPasswordVisible: !this.state.isPasswordVisible });
+  };
+
+  onKeyTogglePasswordVisibility = (e) => {
+    if (e.key === " ") {
+      this.setState({ isPasswordVisible: !this.state.isPasswordVisible });
+    }
   };
 
   validatePassword = (e) => {
@@ -142,6 +150,17 @@ class App extends React.Component {
     }
   };
 
+  toggleModal = (e) => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
+  onKeyToggleModal = (e) => {
+    if (e.key === " ") {
+      this.setState({ showModal: !this.state.showModal });
+      e.target.blur();
+    }
+  };
+
   render() {
     return (
       <div className="App">
@@ -157,6 +176,8 @@ class App extends React.Component {
                 </span>
               </div>
               <input
+                maxLength={"255"}
+                tabIndex={this.state.showModal ? -1 : 0}
                 onBlur={this.handleEmailChange}
                 className={
                   this.state.emailError === ""
@@ -185,6 +206,8 @@ class App extends React.Component {
                 }
               >
                 <input
+                  tabIndex={this.state.showModal ? -1 : 0}
+                  maxLength="100"
                   onBlur={this.handlePasswordChange}
                   onChange={this.validatePassword}
                   className="input-field-password"
@@ -193,9 +216,9 @@ class App extends React.Component {
                   required
                 ></input>
                 <div
-                  tabIndex={0}
-                  onClick={this.togglePasswordVisibility}
-                  onKeyDown={this.togglePasswordVisibility}
+                  tabIndex={this.state.showModal ? -1 : 0}
+                  onClick={this.onClickTogglePasswordVisibility}
+                  onKeyDown={this.onKeyTogglePasswordVisibility}
                   className="password-toggle-icon"
                 >
                   {this.state.isPasswordVisible ? (
@@ -208,6 +231,7 @@ class App extends React.Component {
               <div>
                 <div className="form-password-checkbox-wrapper">
                   <input
+                    readOnly
                     checked={this.state.digitalCheck}
                     className="password-digit-check"
                     tabIndex={"-1"}
@@ -217,6 +241,7 @@ class App extends React.Component {
                 </div>
                 <div className="form-password-checkbox-wrapper">
                   <input
+                    readOnly
                     checked={this.state.letterCheck}
                     className="password-letter-check"
                     tabIndex={"-1"}
@@ -226,6 +251,7 @@ class App extends React.Component {
                 </div>
                 <div className="form-password-checkbox-wrapper">
                   <input
+                    readOnly
                     checked={this.state.lengthCheck}
                     className="password-length-check"
                     tabIndex={"-1"}
@@ -244,6 +270,7 @@ class App extends React.Component {
                 </span>
               </div>
               <input
+                tabIndex={this.state.showModal ? -1 : 0}
                 onBlur={this.handlePayorNumberChange}
                 onWheel={(e) => e.target.blur()}
                 className={
@@ -260,11 +287,20 @@ class App extends React.Component {
             <div className="field-wrapper">
               <div className="input-field-name">
                 Numer PESEL{" "}
+                <div
+                  tabIndex={this.state.showModal ? -1 : 0}
+                  onClick={this.toggleModal}
+                  onKeyDown={this.onKeyToggleModal}
+                  className="questionmark-icon"
+                >
+                  <FaRegQuestionCircle />
+                </div>
                 <span className="input-error-info">
                   {this.state.peselNumberError}
                 </span>
               </div>
               <input
+                tabIndex={this.state.showModal ? -1 : 0}
                 onBlur={this.handlePeselNumberChange}
                 onWheel={(e) => e.target.blur()}
                 type={"number"}
@@ -287,6 +323,7 @@ class App extends React.Component {
                 </span>
               </div>
               <input
+                tabIndex={this.state.showModal ? -1 : 0}
                 onBlur={this.handlePhoneNumberChange}
                 onWheel={(e) => e.target.blur()}
                 type={"number"}
@@ -302,6 +339,7 @@ class App extends React.Component {
             <div className="field-declaration-wrapper">
               <span className="field-declaration-checkbox">
                 <input
+                  tabIndex={this.state.showModal ? -1 : 0}
                   required
                   onChange={this.handleRuleAcceptance}
                   checked={this.state.ruleAcceptance}
@@ -325,6 +363,7 @@ class App extends React.Component {
             </div>
             <div className="form-button-wrapper">
               <input
+                tabIndex={this.state.showModal ? -1 : 0}
                 className="form-button-submit"
                 type={"submit"}
                 value="Dalej"
@@ -332,13 +371,21 @@ class App extends React.Component {
             </div>
             <div className="login-button-wrapper">
               <button
+                tabIndex={this.state.showModal ? -1 : 0}
                 className="login-button"
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert("Przycisk chwilowo niedostępny!");
+                }}
               >
                 Logowanie
               </button>
             </div>
           </form>
+          <Modal
+            showModal={this.state.showModal}
+            toggleModal={this.toggleModal}
+          />
         </div>
       </div>
     );
