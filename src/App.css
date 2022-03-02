@@ -198,3 +198,9 @@ input::-webkit-inner-spin-button {
   background-color: white;
   cursor: pointer;
 }
+
+.questionmark-icon {
+  display: inline-block;
+  transform: scale(0.8);
+  cursor: pointer;
+}

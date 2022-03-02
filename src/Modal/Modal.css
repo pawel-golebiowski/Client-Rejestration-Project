@@ -1,0 +1,139 @@
+@import "/src/variables.css";
+@import "react-datepicker/dist/react-datepicker.css";
+
+.modal-background {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+}
+
+.modal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 400px;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.modal-header {
+  font-weight: bold;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  color: var(--default-font-color);
+}
+
+.modal-exit-icon {
+  cursor: pointer;
+}
+
+.modal-row {
+  margin: 15px 0px;
+}
+
+.modal-agreement {
+  display: block;
+}
+
+.modal-row > .input-field-name {
+  font-weight: bold;
+}
+
+.modal-date-input {
+  padding: 10px 19px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: var(--form-input-background-color);
+  border: var(--form-input-border);
+  cursor: pointer;
+}
+.modal-date-input:focus {
+  outline: none;
+}
+
+.modal-time-select {
+  cursor: pointer;
+  appearance: none;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: var(--form-input-background-color);
+  border: var(--form-input-border);
+}
+
+.modal-time-select:invalid {
+  color: rgba(0, 0, 0, 0.3);
+}
+.modal-time-select > option {
+  color: black;
+}
+
+/* .modal-time-select:focus {
+  outline: none;
+} */
+
+.modal-phone-input > .input-field {
+  padding: 10px 17px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: var(--form-input-background-color);
+  border: var(--form-input-border);
+}
+
+.modal-phone-input > input:focus {
+  outline: none;
+}
+
+.modal-phone-input > .input-field-wrong {
+  padding: 10px 17px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: var(--form-input-background-color);
+  border: 1px solid red;
+}
+
+.modal-body {
+  color: var(--default-font-color);
+  font-size: 12px;
+}
+
+.modal-submit-button {
+  display: flex;
+  justify-content: center;
+}
+
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.modal-submit-button > input {
+  cursor: pointer;
+  color: white;
+  padding: 15px;
+  border-radius: 25px;
+  width: 100px;
+  border: 0px;
+  background-color: var(--default-background-color);
+}
+
+.modal-info {
+  color: var(--default-font-color);
+  font-size: 12px;
+}

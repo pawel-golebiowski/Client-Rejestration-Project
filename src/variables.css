@@ -1,6 +1,8 @@
 :root {
-  --default-font-color: rgb(40, 78, 134);
-  --form-input-border: 1px solid rgba(0, 0, 0, 0.25);
-  --form-input-background-color: rgba(100, 100, 100, 0.1);
   --default-background-color: rgb(18, 190, 171);
+  --default-font-color: rgb(40, 78, 134);
+  --form-input-background-color: rgba(100, 100, 100, 0.1);
+  --form-input-border: 1px solid rgba(0, 0, 0, 0.25);
+
+  --default-font-size: 12px;
 }
